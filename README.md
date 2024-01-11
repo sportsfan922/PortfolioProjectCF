@@ -1,9 +1,5 @@
-# marianoriveramode
-Portfolio Projects
-
-Video Rental Company Analysis
-
-1. SQL Queries
+# Video Rental Company Analysis (Rockbuster Stealth)
+   SQL Queries
    a. Query A
    b. Query B
    c. Query C
@@ -12,3 +8,9 @@ Video Rental Company Analysis
    f. Query F
 
 The link to the Tableau dashboard is HERE!   
+
+
+
+   
+
+
