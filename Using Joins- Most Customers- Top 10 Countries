@@ -1,0 +1,13 @@
+# Create Joins to find the top 10 countries for Rockbuster in terms of customer numbers. 
+Select country.country, count(country) AS CountOfCountry, count(customer_id) AS NumOfCustomers, count(customer.address_id) AS NumOfCustAddress
+From customer
+Right Join address
+On customer.address_id=address.address_id
+Right Join city
+On address.city_id=city.city_id
+Right Join country
+On city.country_id=country.country_id
+Group by country.country
+Order by numofcustomers DESC
+Limit 10
+
