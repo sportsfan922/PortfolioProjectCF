@@ -1,0 +1,15 @@
+# Find out how many of the top 5 customers are based within each country.
+Select customer.customer_id, customer.first_name,customer.last_name, country.country.id
+From customer
+Where country (select sum(amount) AS "total_amount_paid", payment.customer_id, customer.first_name, customer.last_name, city.city,country.country 
+From payment 
+Inner Join rental
+On payment.rental_id=rental.rental_id
+Inner Join customer on rental.customer_id = customer.customer_id
+Inner Join address on customer.address_id = address.address_id 
+Inner Join city ON address.city_id = city.city_id 
+Inner Join country on city.country_id = country.country_ID 
+WHERE city IN ('Aurora','Acua','Citrus Heights','Iwaki','Ambattur','Shanwei','So Leopoldo','Teboksary','Tianjin','Cianjur')
+Group by country.country,city.city, payment.customer_id, customer.first_name, customer.last_name
+Order by total_amount_paid DESC
+Limit 5) AS "total_amount_paid"
