@@ -1,0 +1,28 @@
+Find the average amount paid by the top 5 customers in the Top 10 cities with most customers.
+
+WITH platinumcardcustomerbaby (top5customers,country,city,first_name,last_name,customer_id) AS
+(select sum(payment.amount) AS top5customers,country.country, city.city,customer.first_name,customer.last_name,customer.customer_id
+FROM payment
+Inner Join rental
+On payment.rental_id=rental.rental_id
+Inner Join customer
+On rental.customer_id=customer.customer_id
+Inner Join address
+On customer.address_id=address.address_id
+Inner Join city
+On address.city_id=city.city_id
+Inner Join country
+On city.country_id=country.country_id
+WHERE city IN ('Aurora','Acua','Citrus Heights','Iwaki','Ambattur','Shanwei','So Leopoldo','Teboksary','Tianjin','Cianjur')
+Group by country,city,first_name,last_name,customer.customer_id
+Order by sum(payment.amount)
+Limit 5) 
+
+Select country.country, count(customer.customer_id) AS all_customer_count, top5customers AS top_customer_count
+From platinumcardcustomerbaby
+Right Join country ON platinumcardcustomerbaby.country=country.country
+Right Join city ON country.country_id=city.country_id
+Right Join address ON city.city_id=address.city_id
+Right Join customer ON customer.address_id=address.address_id
+Group by country.country, platinumcardcustomerbaby.top5customers
+Order by top_customer_count ASC
