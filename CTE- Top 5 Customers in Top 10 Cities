@@ -1,21 +1,32 @@
 # Find the average amount paid by the top 5 customers in total within the Top 10 Cities with the Most Customers.
-WITH amountpaid (total_amount_paid,country,city,customer_id,first_name,last_name)
-AS (
-Select sum(amount) AS total_amount_paid,count(country) AS count_country, count(city) AS count_city, country.country,city.city, payment.customer_id, customer.first_name, customer.last_name
-From payment
-Inner Join rental
-On payment.rental_id=rental.rental_id
-Inner Join customer
-On rental.customer_id=customer.customer_id
-Inner Join address
-On customer.address_id=address.address_id
-Inner Join city
-On address.city_id=city.city_id
-Inner Join country
-On city.country_id=country.country_id
-WHERE city IN ('Aurora','Acua','Citrus Heights','Iwaki','Ambattur','Shanwei','So Leopoldo','Teboksary','Tianjin','Cianjur')
-Group by country.country,city.city, payment.customer_id, customer.first_name, customer.last_name
-Order by total_amount_paid DESC
-Limit 5) 
-Select avg(total_amount_paid)
-From amountpaid
+WITH platinumcardcustomerbaby (top5customers, country, city, first_name, last_name, customer_id) AS
+(
+    SELECT 
+        sum(payment.amount) AS top5customers,
+        country.country,
+        city.city,
+        customer.first_name,
+        customer.last_name,
+        customer.customer_id
+    FROM 
+        payment
+    INNER JOIN 
+        rental ON payment.rental_id = rental.rental_id
+    INNER JOIN 
+        customer ON rental.customer_id = customer.customer_id
+    INNER JOIN 
+        address ON customer.address_id = address.address_id
+    INNER JOIN 
+        city ON address.city_id = city.city_id
+    INNER JOIN 
+        country ON city.country_id = country.country_id
+    WHERE 
+        city IN ('Aurora', 'Acua', 'Citrus Heights', 'Iwaki', 'Ambattur', 'Shanwei', 'So Leopoldo', 'Teboksary', 'Tianjin', 'Cianjur')
+    GROUP BY 
+        country, city, first_name, last_name, customer.customer_id
+    ORDER BY 
+        top5customers DESC
+    LIMIT 5
+)
+
+SELECT * FROM platinumcardcustomerbaby;
